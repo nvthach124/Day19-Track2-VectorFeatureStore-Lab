@@ -17,10 +17,17 @@
 # %%
 import _setup  # noqa: F401
 import subprocess
+import os
+import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import polars as pl
+
+# Ensure the venv's bin directory is in PATH for subprocess calls to `feast`
+venv_bin = Path(sys.executable).parent
+if str(venv_bin) not in os.environ["PATH"]:
+    os.environ["PATH"] = str(venv_bin) + os.pathsep + os.environ["PATH"]
 
 REPO_ROOT = Path(_setup.__file__).resolve().parent.parent
 FEAST_DIR = REPO_ROOT / "app" / "feast_repo"
